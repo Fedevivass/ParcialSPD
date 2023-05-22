@@ -1,0 +1,352 @@
+// C++ code
+//FEDERICO VIVAS DIV D PARCIAL
+#define LED_ROJO 10
+#define LED_VERDE 9
+////////////////////
+int A = 6;
+int B = 7;
+int C = A0;
+int D = A1;
+int E = A2;
+int F = 5;
+int G = 4;
+
+int t = 3000;
+////////////////////
+const int PULSADOR_SUBIR = 13;
+const int PULSADOR_BAJAR = 12;
+const int PULSADOR_DETENER = 11;
+int estado_pulsador = 0;
+int ultimo_estado = 0;
+int suma_contador = 0;
+////////////////////
+int contador = 0;
+int total_pisos = 9;
+void setup()
+{
+  pinMode(LED_ROJO, OUTPUT);
+  pinMode(LED_VERDE, OUTPUT);
+  pinMode(A, OUTPUT);
+  pinMode(B, OUTPUT);
+  pinMode(C, OUTPUT);
+  pinMode(D, OUTPUT);
+  pinMode(E, OUTPUT);
+  pinMode(F, OUTPUT);
+  pinMode(G, OUTPUT);
+  pinMode(PULSADOR_SUBIR, INPUT);
+  pinMode(PULSADOR_BAJAR, INPUT);
+  pinMode(PULSADOR_DETENER, INPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  	//detener();
+  	subir_con_boton();
+  	bajar_con_boton();
+  	
+}
+
+////////////////////////////////////////////
+void subir_con_boton()
+{
+	estado_pulsador = digitalRead(PULSADOR_SUBIR);
+  
+  	if (estado_pulsador != ultimo_estado)
+    {
+    	if(estado_pulsador == HIGH)
+        {
+        	suma_contador = 2;
+          	if(suma_contador % 2 == 0)
+            {
+            	subir();
+            }
+          	else
+            {
+            	digitalWrite(LED_ROJO, HIGH);
+            }
+        }
+    }
+  delay(100);
+}
+
+////////////////////////////////////////////
+void subir()
+{
+	
+  	if (contador < total_pisos)
+    {
+     
+      	switch(contador)
+      	{
+          case 0:
+          	
+          	digitalWrite(LED_VERDE, HIGH);
+  			digitalprintln("USTED ESTA EN EL PISO 0");
+          	cero();
+          	contador ++;
+          
+          case 1:          
+          	digitalprintln("USTED ESTA EN EL PISO 1");
+          	uno();
+          	contador ++;
+          
+          case 2:          
+          	digitalprintln("USTED ESTA EN EL PISO 2");
+          	dos();
+          	contador ++;
+          
+          case 3:
+          	digitalprintln("USTED ESTA EN EL PISO 3");
+          	tres();
+          	contador ++;
+          case 4:
+          	digitalprintln("USTED ESTA EN EL PISO 4");
+          	cuatro();
+          	contador ++;
+          case 5:
+          	digitalprintln("USTED ESTA EN EL PISO 5");
+          	cinco();
+          	contador ++;
+          case 6:
+          	digitalprintln("USTED ESTA EN EL PISO 6");
+          	seis();
+          	contador ++;
+          case 7:
+          	digitalprintln("USTED ESTA EN EL PISO 7");
+          	siete();
+          	contador ++;
+          case 8:
+          	digitalprintln("USTED ESTA EN EL PISO 8");
+          	ocho();
+          	contador ++;
+          case 9:
+          	digitalprintln("USTED ESTA EN EL PISO 9");
+          	nueve();
+          	digitalWrite(LED_VERDE, LOW);
+          
+       	}
+        
+      	
+    }
+}
+
+void bajar()
+{
+
+  	
+  	while ( contador > total_pisos)
+    {
+    	switch(contador)
+      	{
+          case 9:
+          	digitalWrite(LED_VERDE, HIGH);
+          	digitalprintln("USTED ESTA EN EL PISO 9");
+          	nueve();
+          	contador = contador - 1;
+          case 8:
+          	digitalprintln("USTED ESTA EN EL PISO 8");
+          	ocho();
+          	contador = contador - 1;
+          case 7:
+          	digitalprintln("USTED ESTA EN EL PISO 7");
+          	siete();
+          	contador = contador - 1;
+          case 6:
+          	digitalprintln("USTED ESTA EN EL PISO 6");
+          	seis();
+          	contador = contador - 1;
+          case 5:
+          	digitalprintln("USTED ESTA EN EL PISO 5");
+          	cinco();
+          	contador = contador - 1;
+          case 4:
+          	digitalprintln("USTED ESTA EN EL PISO 4");
+          	cuatro();
+          	contador = contador - 1;
+          case 3:
+          	digitalprintln("USTED ESTA EN EL PISO 3");
+          	tres();
+          	contador = contador - 1;
+          case 2:
+          	digitalprintln("USTED ESTA EN EL PISO 2");
+          	dos();
+          	contador = contador - 1;
+          case 1:
+          	digitalprintln("USTED ESTA EN EL PISO 1");
+          	uno();
+          	contador = contador - 1;
+          case 0:
+          	digitalprintln("USTED ESTA EN EL PISO 0");
+          	cero();
+          	digitalWrite(LED_VERDE, LOW);
+          	presiono_bajar = LOW;
+         
+      	}
+    }
+}
+
+/*void detener()
+{
+	int presiono_subir = digitalRead(PULSADOR_SUBIR);
+    int presiono_bajar = digitalRead(PULSADOR_BAJAR);
+    int presiono_detener = digitalRead(PULSADOR_DETENER);
+  
+  	if (presiono_detener == HIGH)
+    {
+  		
+  
+          if(presiono_subir == HIGH)
+          {
+              presiono_subir == LOW;
+              digitalWrite(LED_VERDE, 0);
+              digitalWrite(LED_ROJO, 1);
+          }
+          else
+          {
+              if(presiono_bajar == HIGH)
+              {
+              presiono_bajar == LOW;
+              digitalWrite(LED_VERDE, 0);
+              digitalWrite(LED_ROJO, 1);
+              }
+          }
+
+    }
+    
+}
+
+*/
+
+
+
+
+void cero()
+{
+	digitalWrite(A, 1);//0
+  	digitalWrite(B, 1);
+  	digitalWrite(C, 1);
+  	digitalWrite(D, 1);
+ 	digitalWrite(E, 1);
+  	digitalWrite(F, 1);
+  	digitalWrite(G, 0);
+  
+  	delay(t);
+}
+  
+void uno() 
+{
+	digitalWrite(A, 0);//1
+  	digitalWrite(B, 1);
+  	digitalWrite(C, 1);
+  	digitalWrite(D, 0);
+ 	digitalWrite(E, 0);
+  	digitalWrite(F, 0);
+  	digitalWrite(G, 0);
+  
+  	delay(t);
+}
+
+void dos()
+{
+	digitalWrite(A, 1);//2
+  	digitalWrite(B, 1);
+  	digitalWrite(C, 0);
+  	digitalWrite(D, 1);
+ 	digitalWrite(E, 1);
+  	digitalWrite(F, 0);
+  	digitalWrite(G, 1);
+  
+  	delay(t);
+}
+
+void tres()
+{
+	digitalWrite(A, 1);//3
+  	digitalWrite(B, 1);
+  	digitalWrite(C, 1);
+  	digitalWrite(D, 1);
+ 	digitalWrite(E, 0);
+  	digitalWrite(F, 0);
+  	digitalWrite(G, 1);
+  
+  	delay(t);
+}
+
+void cuatro()
+{
+	digitalWrite(A, 0);//4
+  	digitalWrite(B, 1);
+  	digitalWrite(C, 1);
+  	digitalWrite(D, 0);
+ 	digitalWrite(E, 0);
+  	digitalWrite(F, 1);
+  	digitalWrite(G, 1);
+  
+  	delay(t);
+}
+
+void cinco()
+{
+	digitalWrite(A, 1);//5
+  	digitalWrite(B, 0);
+  	digitalWrite(C, 1);
+  	digitalWrite(D, 1);
+ 	digitalWrite(E, 0);
+  	digitalWrite(F, 1);
+  	digitalWrite(G, 1);
+  
+  	delay(t);
+}
+
+void seis()
+{
+	digitalWrite(A, 1);//6
+  	digitalWrite(B, 0);
+  	digitalWrite(C, 1);
+  	digitalWrite(D, 1);
+ 	digitalWrite(E, 1);
+  	digitalWrite(F, 1);
+  	digitalWrite(G, 1);
+  
+  	delay(t);
+}
+
+void siete()
+{
+	digitalWrite(A, 1);//7
+  	digitalWrite(B, 1);
+  	digitalWrite(C, 1);
+  	digitalWrite(D, 0);
+ 	digitalWrite(E, 0);
+  	digitalWrite(F, 0);
+  	digitalWrite(G, 0);
+  
+  	delay(t);
+}
+
+void ocho()
+{
+	digitalWrite(A, 1);//8
+  	digitalWrite(B, 1);
+  	digitalWrite(C, 1);
+  	digitalWrite(D, 1);
+ 	digitalWrite(E, 1);
+  	digitalWrite(F, 1);
+  	digitalWrite(G, 1);
+  
+  	delay(t);
+}
+void nueve()
+{
+	digitalWrite(A, 1);//9
+  	digitalWrite(B, 1);
+  	digitalWrite(C, 1);
+  	digitalWrite(D, 1);
+ 	digitalWrite(E, 0);
+  	digitalWrite(F, 1);
+  	digitalWrite(G, 1);
+  
+  	delay(t);
+}
+////////////////////////////////////////////
