@@ -1,2 +1,3 @@
 # ParcialSPD
-![Opera Captura de pantalla_2023-05-21_225415_www tinkercad com](https://github.com/Fedevivass/ParcialSPD/assets/98746982/1e3a5b08-abcf-4ebf-9bf5-0bc1f9bd894c)
+
+![Opera Captura de pantalla_2023-06-26_105824_www tinkercad com](https://github.com/Fedevivass/ParcialSPD/assets/98746982/b805f4e4-ba58-4d41-a090-dd5e4e08a747)
