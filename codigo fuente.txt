@@ -1,7 +1,11 @@
+#include <Servo.h> 
+Servo myServo;
 // C++ code
 //FEDERICO VIVAS DIV D PARCIAL
 #define LED_ROJO 10
 #define LED_VERDE 9
+int pinFoto = A5;
+int intencidad = 0;
 ////////////////////
 int A = 6;
 int B = 7;
@@ -11,7 +15,7 @@ int E = A2;
 int F = 5;
 int G = 4;
 
-int t = 3000;
+int t = 1000;
 ////////////////////
 const int PULSADOR_SUBIR = 13;
 const int PULSADOR_BAJAR = 12;
@@ -19,11 +23,24 @@ const int PULSADOR_DETENER = 11;
 int estado_pulsador = 0;
 int ultimo_estado = 0;
 int suma_contador = 0;
+///////////////////////////
+int ultimo_estado_detener = 0;
+int suma_contador_detener = 0;
+int estado_pulsador_detener = 0;
+///////////////////////////
+int ultimo_estado_bajar = 0;
+int suma_contador_bajar = 0;
+int estado_pulsador_bajar = 0;
+///////////////////////////
+int ultimo_estado_subir = 0;
+int suma_contador_subir = 0;
+int estado_pulsador_subir = 0;
 ////////////////////
 int contador = 0;
 int total_pisos = 9;
 void setup()
 {
+  myServo.attach(3,500,2500);
   pinMode(LED_ROJO, OUTPUT);
   pinMode(LED_VERDE, OUTPUT);
   pinMode(A, OUTPUT);
@@ -36,190 +53,165 @@ void setup()
   pinMode(PULSADOR_SUBIR, INPUT);
   pinMode(PULSADOR_BAJAR, INPUT);
   pinMode(PULSADOR_DETENER, INPUT);
+  pinMode(A5, INPUT);
   Serial.begin(9600);
 }
 
 void loop()
 {
-  	//detener();
+  	intencidad = analogRead(pinFoto);
+  
+  if(intencidad > 307){ 
+  digitalWrite(LED_ROJO, HIGH); //Si hay luz ambiente prende el bombillo
+  }else{
+  digitalWrite(LED_ROJO, LOW); //Si no hay luz ambiente apaga el bombillo
+  }
+  	
   	subir_con_boton();
   	bajar_con_boton();
   	
 }
 
 ////////////////////////////////////////////
-void subir_con_boton()
+void dibujar_numero()
 {
-	estado_pulsador = digitalRead(PULSADOR_SUBIR);
-  
-  	if (estado_pulsador != ultimo_estado)
-    {
-    	if(estado_pulsador == HIGH)
-        {
-        	suma_contador = 2;
-          	if(suma_contador % 2 == 0)
-            {
-            	subir();
-            }
-          	else
-            {
-            	digitalWrite(LED_ROJO, HIGH);
-            }
-        }
-    }
-  delay(100);
-}
-
-////////////////////////////////////////////
-void subir()
-{
-	
-  	if (contador < total_pisos)
-    {
-     
-      	switch(contador)
+	switch(contador)
       	{
           case 0:
-          	
-          	digitalWrite(LED_VERDE, HIGH);
-  			digitalprintln("USTED ESTA EN EL PISO 0");
+  			Serial.println(contador);
           	cero();
-          	contador ++;
-          
+      		break;      
           case 1:          
-          	digitalprintln("USTED ESTA EN EL PISO 1");
+          	Serial.println(contador);
           	uno();
-          	contador ++;
-          
+      		break;
           case 2:          
-          	digitalprintln("USTED ESTA EN EL PISO 2");
+          	Serial.println(contador);
           	dos();
-          	contador ++;
-          
+      		break;
           case 3:
-          	digitalprintln("USTED ESTA EN EL PISO 3");
+          	Serial.println(contador);
           	tres();
-          	contador ++;
+       		break;   	
           case 4:
-          	digitalprintln("USTED ESTA EN EL PISO 4");
+          	Serial.println(contador);
           	cuatro();
-          	contador ++;
+          	break;
           case 5:
-          	digitalprintln("USTED ESTA EN EL PISO 5");
+          	Serial.println(contador);
           	cinco();
-          	contador ++;
+      		myServo.write(0);
+            delay(1000);
+            myServo.write(100);
+            delay(1000);
+          	break;
           case 6:
-          	digitalprintln("USTED ESTA EN EL PISO 6");
+          	Serial.println(contador);
           	seis();
-          	contador ++;
+          	break;
           case 7:
-          	digitalprintln("USTED ESTA EN EL PISO 7");
+          	Serial.println(contador);
           	siete();
-          	contador ++;
+          	break;
           case 8:
-          	digitalprintln("USTED ESTA EN EL PISO 8");
+          	Serial.println(contador);
           	ocho();
-          	contador ++;
+          	break;
           case 9:
-          	digitalprintln("USTED ESTA EN EL PISO 9");
-          	nueve();
-          	digitalWrite(LED_VERDE, LOW);
-          
+          	Serial.println(contador);
+          	nueve();        	
+          	break;
        	}
-        
-      	
+}
+
+void subir_con_boton()
+{
+	estado_pulsador_subir = digitalRead(PULSADOR_SUBIR);
+  if(estado_pulsador_subir != ultimo_estado_subir)	{
+  	if(estado_pulsador_subir == HIGH)   {
+    	
+      	suma_contador_subir ++;
+      	Serial.println("on");
+      
+      if (suma_contador_subir % 2 == 0) {
+        subir();
+      } else {
+        digitalWrite(LED_VERDE, 0);
+      }
+    } else {
+      
+      Serial.println("off");
     }
+    delay(150);
+  }
+  
+  ultimo_estado_subir = estado_pulsador_subir;
+}
+
+void bajar_con_boton()
+{
+	estado_pulsador_bajar = digitalRead(PULSADOR_BAJAR);
+  if(estado_pulsador_bajar != ultimo_estado_bajar)	{
+  	if(estado_pulsador_bajar == HIGH)   {
+    	
+      	suma_contador_bajar ++;
+      	Serial.println("on");
+      
+      if (suma_contador_bajar % 2 == 0) {
+        bajar();
+      } else {
+        digitalWrite(LED_VERDE, 0);
+      }
+    } else {
+      
+      Serial.println("off");
+    }
+    delay(150);
+  }
+  
+  ultimo_estado_bajar = estado_pulsador_bajar;
+}
+  
+
+////////////////////////////////////////////
+void chequeo_detener()
+{
+  estado_pulsador_detener = digitalRead(PULSADOR_DETENER);
+  if (estado_pulsador_detener != ultimo_estado_detener)
+    {
+    digitalWrite(LED_ROJO,	HIGH);
+  	digitalWrite(LED_VERDE, LOW);
+    Serial.print("tocaron detener");
+    }
+}
+void subir()
+{
+	chequeo_detener();
+  	digitalWrite(LED_ROJO, LOW);  	
+  	digitalWrite(LED_VERDE, HIGH);
+  	while ( contador <= total_pisos && contador >= 0 && estado_pulsador_detener == false)
+    {
+     	chequeo_detener();
+    	dibujar_numero();
+      	contador ++;
+    }
+  	digitalWrite(LED_VERDE, LOW);
 }
 
 void bajar()
 {
-
-  	
-  	while ( contador > total_pisos)
+    chequeo_detener();
+  	digitalWrite(LED_ROJO, LOW);
+  	digitalWrite(LED_VERDE, HIGH);
+  	contador --;
+  	while ( contador <= total_pisos && contador >= 0 && estado_pulsador_detener == false)
     {
-    	switch(contador)
-      	{
-          case 9:
-          	digitalWrite(LED_VERDE, HIGH);
-          	digitalprintln("USTED ESTA EN EL PISO 9");
-          	nueve();
-          	contador = contador - 1;
-          case 8:
-          	digitalprintln("USTED ESTA EN EL PISO 8");
-          	ocho();
-          	contador = contador - 1;
-          case 7:
-          	digitalprintln("USTED ESTA EN EL PISO 7");
-          	siete();
-          	contador = contador - 1;
-          case 6:
-          	digitalprintln("USTED ESTA EN EL PISO 6");
-          	seis();
-          	contador = contador - 1;
-          case 5:
-          	digitalprintln("USTED ESTA EN EL PISO 5");
-          	cinco();
-          	contador = contador - 1;
-          case 4:
-          	digitalprintln("USTED ESTA EN EL PISO 4");
-          	cuatro();
-          	contador = contador - 1;
-          case 3:
-          	digitalprintln("USTED ESTA EN EL PISO 3");
-          	tres();
-          	contador = contador - 1;
-          case 2:
-          	digitalprintln("USTED ESTA EN EL PISO 2");
-          	dos();
-          	contador = contador - 1;
-          case 1:
-          	digitalprintln("USTED ESTA EN EL PISO 1");
-          	uno();
-          	contador = contador - 1;
-          case 0:
-          	digitalprintln("USTED ESTA EN EL PISO 0");
-          	cero();
-          	digitalWrite(LED_VERDE, LOW);
-          	presiono_bajar = LOW;
-         
-      	}
+     chequeo_detener();
+     dibujar_numero();
+     contador --;    	       
     }
+  	digitalWrite(LED_VERDE, LOW);
 }
-
-/*void detener()
-{
-	int presiono_subir = digitalRead(PULSADOR_SUBIR);
-    int presiono_bajar = digitalRead(PULSADOR_BAJAR);
-    int presiono_detener = digitalRead(PULSADOR_DETENER);
-  
-  	if (presiono_detener == HIGH)
-    {
-  		
-  
-          if(presiono_subir == HIGH)
-          {
-              presiono_subir == LOW;
-              digitalWrite(LED_VERDE, 0);
-              digitalWrite(LED_ROJO, 1);
-          }
-          else
-          {
-              if(presiono_bajar == HIGH)
-              {
-              presiono_bajar == LOW;
-              digitalWrite(LED_VERDE, 0);
-              digitalWrite(LED_ROJO, 1);
-              }
-          }
-
-    }
-    
-}
-
-*/
-
-
-
 
 void cero()
 {
